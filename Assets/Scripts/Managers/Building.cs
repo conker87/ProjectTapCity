@@ -110,9 +110,21 @@ public class Building : MonoBehaviour {
 
 		//_timerText.text = CashManager.CashArrayToString (currentAmount_Array);
 
-		float percentageClamped = Mathf.Clamp01 ((time - Time.time) / currentTime);
-		Vector3 percentageScale = new Vector3 (1f - percentageClamped, 1, 1);
+		float percentageClamped;
+		Vector3 percentageScale;
 
+		if (currentTime < 1f) {
+
+			percentageClamped = 0f;
+
+		} else {
+
+			percentageClamped = Mathf.Clamp01 ((time - Time.time) / currentTime);
+
+
+		}
+
+		percentageScale = new Vector3 (1f - percentageClamped, 1, 1);
 		_timerForegroundUI.transform.localScale = percentageScale;
 
 	}
