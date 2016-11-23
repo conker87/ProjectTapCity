@@ -10,9 +10,10 @@ public class Building : MonoBehaviour {
 	public int buildingLevel = 0, levelToHitConstant = 50;
 	public float startingTime = 4f;
 	[SerializeField]
-	float currentTime;
+	float currentTime, previousTime;
 
-	float time;
+	[SerializeField]
+	float time, currentTimedotTime, timeRemaining;
 
 	[SerializeField]
 	string currentAmount = "", previousAmount = "";
@@ -48,18 +49,21 @@ public class Building : MonoBehaviour {
 
 		// this will need changing so that it figures it out through equations.
 		currentTime = startingTime;
+		previousTime = currentTime;
 
 	}
 
 	void FixedUpdate () {
 	
-		Cash ();
+
 
 	}
 
 	void Update() {
-
-		TimerUI (timerForeground, timerText);
+		
+		currentTimedotTime = Time.time;
+		timeRemaining = (Time.time / time);
+		Cash ();
 
 	}
 
@@ -78,12 +82,21 @@ public class Building : MonoBehaviour {
 
 		}
 
+		if (currentTime != previousTime) {
+
+			time = Time.time;
+
+		}
+
 		if (Time.time > time) {
 
 			CashManager.AddCashPerSecondToTotalCash (currentAmount_Array, CashManager.instance.TotalCash);
+			previousTime = currentTime;
 			time = Time.time + currentTime;
 
 		}
+
+		TimerUI (timerForeground, timerText);
 
 	}
 
@@ -97,7 +110,7 @@ public class Building : MonoBehaviour {
 
 		//_timerText.text = CashManager.CashArrayToString (currentAmount_Array);
 
-		float percentageClamped = Mathf.Clamp01 (time - Time.time / currentTime);
+		float percentageClamped = Mathf.Clamp01 ((time - Time.time) / currentTime);
 		Vector3 percentageScale = new Vector3 (1f - percentageClamped, 1, 1);
 
 		_timerForegroundUI.transform.localScale = percentageScale;
