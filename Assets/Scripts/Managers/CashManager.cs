@@ -12,7 +12,6 @@ public class CashManager : MonoBehaviour {
 	int[] totalCash = new int[100];
 	public int[] TotalCash { get { return totalCash; } set { totalCash = value; } }
 
-	//int[] previousCashPerSecond = -1;
 	int[] castPerSecond_Array = new int[100];
 
 	void Start () {
@@ -23,9 +22,7 @@ public class CashManager : MonoBehaviour {
 
 	void Update () {
 
-			//AddCashPerSecondToTotalCash (castPerSecond_Array, totalCash);
-
-		DisplayCashPerSecond (TotalCashText, TotalCash);
+		TotalCashText.text = CashArrayToString (TotalCash);
 
 	}
 
@@ -130,22 +127,26 @@ public class CashManager : MonoBehaviour {
 
 	}
 
-	public void DisplayCashPerSecond(Text _totalCashText, int[] _totalCash) {
+	public static string CashArrayToString(int[] _cashArray) {
 
-		if (_totalCashText == null) {
+		if (_cashArray == null) {
 
-			return;
+			return "-- CASH ARRAY NULL. -- FATAL ERROR";
 
 		}
 
-		_totalCashText.text = "$";
-		int _totalCashLength = FindLengthOffloatArrayWithoutTrailingZeros(_totalCash);
+		string temp;
+
+		temp = "$";
+		int _totalCashLength = FindLengthOffloatArrayWithoutTrailingZeros(_cashArray);
 
 		for (int i = _totalCashLength - 1; i >= 0 ; i--) {
 
-			_totalCashText.text += _totalCash [i].ToString ();
+			temp += _cashArray [i].ToString ();
 
 		}
+
+		return temp;
 
 	}
 	#endregion
