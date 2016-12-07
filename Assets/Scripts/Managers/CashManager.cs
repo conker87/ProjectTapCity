@@ -9,10 +9,10 @@ public class CashManager : MonoBehaviour {
 	public Text TotalCashText;
 
 	[SerializeField]
-	int[] totalCash = new int[100];
-	public int[] TotalCash { get { return totalCash; } set { totalCash = value; } }
+	sbyte[] totalCash = new sbyte[100];
+	public sbyte[] TotalCash { get { return totalCash; } set { totalCash = value; } }
 
-	int[] castPerSecond_Array = new int[100];
+	sbyte[] castPerSecond_Array = new sbyte[100];
 
 	void Start () {
 
@@ -26,10 +26,10 @@ public class CashManager : MonoBehaviour {
 
 	}
 
-	public static void AddCashPerSecondToTotalCash(int[] _cashPerSecond_Array, int[] _totalCash_Array) {
+	public static void AddCashPerSecondToTotalCash(sbyte[] _cashPerSecond_Array, sbyte[] _totalCash_Array) {
 
 		int _cashPerSecondLength = FindLengthOffloatArrayWithoutTrailingZeros (_cashPerSecond_Array);
-		int[] temp_TC = new int[100];
+		sbyte[] temp_TC = new sbyte[100];
 		temp_TC = _totalCash_Array;
 
 		for (int i = 0; i < _cashPerSecondLength; i++) {
@@ -42,9 +42,9 @@ public class CashManager : MonoBehaviour {
 			
 	}
 
-	int[] SortOutTotalCashDuringAdding(int[] _totalCash) {
+	sbyte[] SortOutTotalCashDuringAdding(sbyte[] _totalCash) {
 
-		int[] temp = new int[100];
+		sbyte[] temp = new sbyte[100];
 		temp = _totalCash;
 		int _totalCashLength = FindLengthOffloatArrayWithoutTrailingZeros (temp);
 
@@ -71,14 +71,14 @@ public class CashManager : MonoBehaviour {
 	}
 
 	#region Utils
-	public static int[] CashPerSecondToArray(int _cashPerSecond) {
+	public static sbyte[] CashPerSecondToArray(int _cashPerSecond) {
 
 		return CashPerSecondToArray (_cashPerSecond.ToString ());
 
 	}
-	public static int[] CashPerSecondToArray(string _cashPerSecond) {
+	public static sbyte[] CashPerSecondToArray(string _cashPerSecond) {
 
-		int[] cashPerSecond_Temp = new int[100];
+		sbyte[] cashPerSecond_Temp = new sbyte[100];
 		string cashTemp;
 
 		cashTemp = _cashPerSecond.ToString ();
@@ -93,7 +93,7 @@ public class CashManager : MonoBehaviour {
 
 		for (int i = cashTemp.Length - 1; i >= 0; i--) {
 
-			cashPerSecond_Temp [i] = int.Parse (cashTemp [j].ToString ());
+			cashPerSecond_Temp [i] = sbyte.Parse (cashTemp [j].ToString ());
 			j++;
 
 		}
@@ -102,7 +102,7 @@ public class CashManager : MonoBehaviour {
 
 	}
 
-	public static int FindLengthOffloatArrayWithoutTrailingZeros(int[] _getLength) {
+	public static int FindLengthOffloatArrayWithoutTrailingZeros(sbyte[] _getLength) {
 
 		bool hasHitNotZero = false;
 		int temp = 0;
@@ -127,7 +127,7 @@ public class CashManager : MonoBehaviour {
 
 	}
 
-	public static string CashArrayToString(int[] _cashArray) {
+	public static string CashArrayToString(sbyte[] _cashArray) {
 
 		if (_cashArray == null) {
 

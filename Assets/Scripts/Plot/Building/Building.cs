@@ -11,22 +11,24 @@ public class Building : Plot {
 	/// base number further. More and more of the same type increases the net profit for each of that
 	/// type but also drastically increases the purchase cost.
 
+	public float minimumProgressTime = 0.02f, minimumProgressTimeCooldown;
+
 	public string basePurchaseAmount = "5";
-	public float purchaseMultiplierPerLevel = 1.2f, purchaseMultiplierPerType = 5f;
+	public float purchaseMultiplierPerLevel = 2f, purchaseMultiplierPerType = 5f;
 
 	public string startingAmount = "1";
 	public int buildingLevel = 0, levelToHitConstant = 50;
 	public float startingTime = 4f;
 	[SerializeField]
-	float currentTime, previousTime;
+	float currentProgressTime, previousProgressTime;
 
 	[SerializeField]
-	float time, currentTimedotTime, timeRemaining;
+	float time, currentTimeDotTime, timeRemaining;
 
 	[SerializeField]
 	string currentAmount = "", previousAmount = "";
 
-	int[] currentAmount_Array = new int[100];
+	sbyte[] currentAmount_Array = new sbyte[100];
 
 	public Transform timerForeground;
 	public Text timerText;
@@ -57,8 +59,8 @@ public class Building : Plot {
 		if (buildingLevel == 0) {
 
 			// this will need changing so that it figures it out through equations.
-			currentTime = startingTime;
-			previousTime = currentTime;
+			currentProgressTime = startingTime;
+			previousProgressTime = currentProgressTime;
 
 		} else {
 
@@ -70,16 +72,20 @@ public class Building : Plot {
 	}
 
 	void FixedUpdate () {
-	
-
 
 	}
 
 	void Update() {
 		
-		currentTimedotTime = Time.time;
-		timeRemaining = (Time.time / time);
-		Cash ();
+		currentTimeDotTime = Time.time;
+		timeRemaining = time - currentTimeDotTime;
+
+		if (Time.time > minimumProgressTimeCooldown) {
+		
+			Cash ();
+			minimumProgressTimeCooldown = Time.time + minimumProgressTime;
+
+		}
 
 	}
 
@@ -98,17 +104,17 @@ public class Building : Plot {
 
 		}
 
-		if (currentTime != previousTime) {
+		if (currentProgressTime != previousProgressTime) {
 
 			time = Time.time;
+			previousProgressTime = currentProgressTime;
 
 		}
 
 		if (Time.time > time) {
 
 			CashManager.AddCashPerSecondToTotalCash (currentAmount_Array, CashManager.instance.TotalCash);
-			previousTime = currentTime;
-			time = Time.time + currentTime;
+			time = Time.time + currentProgressTime;
 
 		}
 
@@ -129,13 +135,13 @@ public class Building : Plot {
 		float percentageClamped;
 		Vector3 percentageScale;
 
-		if (currentTime < 1f) {
+		if (currentProgressTime < 1f) {
 
 			percentageClamped = 0f;
 
 		} else {
 
-			percentageClamped = Mathf.Clamp01 ((time - Time.time) / currentTime);
+			percentageClamped = Mathf.Clamp01 ((time - Time.time) / currentProgressTime);
 
 
 		}
