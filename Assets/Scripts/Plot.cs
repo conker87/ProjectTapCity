@@ -3,12 +3,13 @@ using System.Collections;
 
 public class Plot : MonoBehaviour {
 
-	public Vector3 PlotLocation;
+	[SerializeField]
+	Vector3 plotLocation;
 
 	// Use this for initialization
 	void Start () {
 	
-		PlotLocation = transform.position;
+		plotLocation = transform.position;
 
 	}
 	

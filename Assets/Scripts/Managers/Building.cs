@@ -2,9 +2,17 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class Building : MonoBehaviour {
+public class Building : Plot {
 
 	// levelToHitConstant is usually level 100, but this one will be changed to 50;
+
+	/// To get the currentAmount, the baseAmount is multiplied by a set float amount, set per building
+	/// type. To them make it harder, each type of building (Bank, Store, etc) on the map then multiplies this
+	/// base number further. More and more of the same type increases the net profit for each of that
+	/// type but also drastically increases the purchase cost.
+
+	public string basePurchaseAmount = "5";
+	public float purchaseMultiplierPerLevel = 1.2f, purchaseMultiplierPerType = 5f;
 
 	public string startingAmount = "1";
 	public int buildingLevel = 0, levelToHitConstant = 50;
@@ -23,7 +31,6 @@ public class Building : MonoBehaviour {
 	public Transform timerForeground;
 	public Text timerText;
 
-	// Use this for initialization
 	void Start () {
 
 		foreach (Transform go in GetComponentsInChildren<Transform>()) {
@@ -47,9 +54,18 @@ public class Building : MonoBehaviour {
 
 		time = Time.time + startingTime;
 
-		// this will need changing so that it figures it out through equations.
-		currentTime = startingTime;
-		previousTime = currentTime;
+		if (buildingLevel == 0) {
+
+			// this will need changing so that it figures it out through equations.
+			currentTime = startingTime;
+			previousTime = currentTime;
+
+		} else {
+
+			// currentTime = LoadFromTile("currentTime");
+			// previousTime = currentTime;
+
+		}
 
 	}
 
